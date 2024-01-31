@@ -11,11 +11,13 @@ extension Project {
         var targets = makeAppTargets(name: name,
                                      destinations: destinations,
                                      dependencies: additionalTargets.map { TargetDependency.target(name: $0) })
-        targets += additionalTargets.flatMap({ makeFrameworkTargets(name: $0, destinations: destinations) })
+        
+        targets += additionalTargets.flatMap { makeFrameworkTargets(name: $0, destinations: destinations) }
+        
         return Project(name: name,
                        organizationName: "Kelvin Harron",
                        targets: targets,
-        additionalFiles: "ci_scripts/**")
+                       additionalFiles: "ci_scripts/**")
     }
 
     // MARK: - Private
@@ -23,21 +25,21 @@ extension Project {
     /// Helper function to create a framework target and an associated unit test target
     private static func makeFrameworkTargets(name: String, destinations: Destinations) -> [Target] {
         let sources = Target(name: name,
-                destinations: destinations,
-                product: .framework,
-                bundleId: "com.kelvinharron.\(name)",
-                infoPlist: .default,
-                sources: ["Targets/\(name)/Sources/**"],
-                resources: [],
-                dependencies: [])
+                             destinations: destinations,
+                             product: .framework,
+                             bundleId: "com.kelvinharron.\(name)",
+                             infoPlist: .default,
+                             sources: ["Targets/\(name)/Sources/**"],
+                             resources: [],
+                             dependencies: [])
         let tests = Target(name: "\(name)Tests",
-                destinations: destinations,
-                product: .unitTests,
-                bundleId: "com.kelvinharron.\(name)Tests",
-                infoPlist: .default,
-                sources: ["Targets/\(name)/Tests/**"],
-                resources: [],
-                dependencies: [.target(name: name)])
+                           destinations: destinations,
+                           product: .unitTests,
+                           bundleId: "com.kelvinharron.\(name)Tests",
+                           infoPlist: .default,
+                           sources: ["Targets/\(name)/Tests/**"],
+                           resources: [],
+                           dependencies: [.target(name: name)])
         return [sources, tests]
     }
 
@@ -47,7 +49,7 @@ extension Project {
             "CFBundleShortVersionString": "1.0",
             "CFBundleVersion": "1",
             "UILaunchStoryboardName": "LaunchScreen"
-            ]
+        ]
 
         let mainTarget = Target(
             name: name,
@@ -67,9 +69,11 @@ extension Project {
             bundleId: "com.kelvinharron.\(name)Tests",
             infoPlist: .default,
             sources: ["Targets/\(name)/Tests/**"],
+            scripts: [.pre(path: "ci_scripts/generate-mocks.sh", name: "Generate Mocks", outputPaths: [.init("Targets/TuistXcodeCloud/Sources/GeneratedMocks.swift")] )],
             dependencies: [
                 .target(name: "\(name)")
-        ])
+            ]
+        )
         return [mainTarget, testTarget]
     }
 }
