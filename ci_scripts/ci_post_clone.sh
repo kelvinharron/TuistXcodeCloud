@@ -6,9 +6,11 @@ export PATH="$HOME/.local/bin/$PATH" # Installs the tools in .mise.toml in the p
 ~/.local/bin/mise install # Installs the version from .mise.toml
 
 # Xcode Cloud executes from /scripts directory
-if [ "$CI" != "true" ]; then
-  echo "Activating shims in local dev"
-    eval "$(mise activate bash --shims)" # activate shims to enable local use of mise
+if $CI; then
+    echo "Skip Activating shims in local dev"
+else
+    echo "Activating shims in local dev"
+    eval "$(~/.local/bin/mise activate bash --shims)" # activate shims to enable local use of mise
 fi
 
 mise doctor # verify the output of mise is correct on CI
