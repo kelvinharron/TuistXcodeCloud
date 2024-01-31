@@ -14,6 +14,7 @@ echo "End PATH"
 echo "Start ~/.local/bin/"
 echo "$(ls -l ~/.local/bin/)"
 echo "End ls -l ~/.local/bin/"
+export PATH="$PATH:$HOME/.local/bin"
 cd ..
 mise x -- tuist fetch
 mise x -- tuist generate # Generate the Xcode Project using Tuist
