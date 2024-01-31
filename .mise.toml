@@ -1,0 +1,15 @@
+[settings]
+# configure `mise install` to always keep the downloaded archive
+always_keep_download = false
+always_keep_install = false
+verbose = false
+
+[plugins]
+# specify a custom repo url
+# note this will only be used if the plugin does not already exist
+mockolo = "https://github.com/MontakOleg/asdf-mockolo"
+
+[tools]
+tuist = "3.42.2" # https://github.com/tuist/tuist/releases
+mockolo = "2.0.1" # https://github.com/uber/mockolo/releases
+swiftlint = "0.54.0" # https://github.com/realm/SwiftLint/releases
