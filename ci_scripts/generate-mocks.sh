@@ -2,10 +2,10 @@
 echo "--- Generating mocks"
 echo "--- Generating mocks"
 echo "Start PATH"
-echo $PATH
+echo "$PATH"
 echo "End PATH"
 echo "Start ~/.local/bin/"
-echo ls -l ~/.local/bin/
+echo "$(ls -l ~/.local/bin/)"
 echo "End ls -l ~/.local/bin/"
 
 current_path=$(pwd)
