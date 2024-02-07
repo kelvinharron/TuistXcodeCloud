@@ -1,14 +1,16 @@
 import SwiftUI
 
 public struct ContentView: View {
-    public init() {}
+    let macroString = "Hello, World!"
+
+    init() {}
 
     public var body: some View {
         Text("Hello, World!")
             .padding()
+            .onAppear {}
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

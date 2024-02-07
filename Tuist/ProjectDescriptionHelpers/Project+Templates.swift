@@ -8,14 +8,19 @@ import ProjectDescription
 extension Project {
     /// Helper function to create the Project for this ExampleApp
     public static func app(name: String, destinations: Destinations, additionalTargets: [String]) -> Project {
-        var targets = makeAppTargets(name: name,
-                                     destinations: destinations,
-                                     dependencies: additionalTargets.map { TargetDependency.target(name: $0) })
-        
-        targets += additionalTargets.flatMap { makeFrameworkTargets(name: $0, destinations: destinations) }
-        
+        var targets = makeAppTargets(
+            name: name,
+            destinations: destinations,
+            dependencies: additionalTargets.map { TargetDependency.target(name: $0) }
+        )
+
+        targets += additionalTargets.flatMap {
+            makeFrameworkTargets(name: $0, destinations: destinations)
+        }
+
         return Project(name: name,
                        organizationName: "Kelvin Harron",
+                       packages: [.local(path: "./MyTuistMacro")],
                        targets: targets,
                        additionalFiles: "ci_scripts/**")
     }
@@ -31,7 +36,10 @@ extension Project {
                              infoPlist: .default,
                              sources: ["Targets/\(name)/Sources/**"],
                              resources: [],
-                             dependencies: [])
+                             dependencies: [
+                                 .package(product: "MyTuistMacro", type: .plugin)
+                             ])
+
         let tests = Target(name: "\(name)Tests",
                            destinations: destinations,
                            product: .unitTests,
@@ -69,7 +77,7 @@ extension Project {
             bundleId: "com.kelvinharron.\(name)Tests",
             infoPlist: .default,
             sources: ["Targets/\(name)/Tests/**"],
-            scripts: [.pre(path: "ci_scripts/generate-mocks.sh", name: "Generate Mocks", outputPaths: [.init("Targets/TuistXcodeCloud/Sources/GeneratedMocks.swift")] )],
+            scripts: [.pre(path: "ci_scripts/generate-mocks.sh", name: "Generate Mocks", outputPaths: [.init("Targets/TuistXcodeCloud/Sources/GeneratedMocks.swift")])],
             dependencies: [
                 .target(name: "\(name)")
             ]
