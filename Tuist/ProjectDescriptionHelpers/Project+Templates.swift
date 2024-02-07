@@ -31,7 +31,7 @@ extension Project {
                              infoPlist: .default,
                              sources: ["Targets/\(name)/Sources/**"],
                              resources: [],
-                             dependencies: [.package(product: "MyTuistMacro", type: .runtime)])
+                             dependencies: [])
         let tests = Target(name: "\(name)Tests",
                            destinations: destinations,
                            product: .unitTests,
