@@ -10,6 +10,6 @@ verbose = false
 mockolo = "https://github.com/MontakOleg/asdf-mockolo"
 
 [tools]
-tuist = "3.42.2" # https://github.com/tuist/tuist/releases
+tuist = "4.214.1" # https://github.com/tuist/tuist/releases
 mockolo = "2.0.1" # https://github.com/uber/mockolo/releases
 swiftlint = "0.54.0" # https://github.com/realm/SwiftLint/releases
